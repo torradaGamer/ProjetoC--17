@@ -1,8 +1,11 @@
-var path,boy,cash,diamonds,jwellery,sword;
+var path,boy;
 var pathImg,boyImg,cashImg,diamondsImg,jwelleryImg,swordImg;
 var treasureCollection = 0;
 var cashG,diamondsG,jwelleryG,swordGroup;
-
+var cash
+var diamonds 
+var jewelry 
+var sword 
 //Estados do jogo
 var PLAY=1;
 var END=0;
@@ -15,21 +18,17 @@ function preload(){
   diamondsImg = loadImage("diamonds.png");
   jwelleryImg = loadImage("jwell.png");
   swordImg = loadImage("sword.png");
-  gover = loadImage("gameOver.png");
-  //Remova os comentários corretos da linha de código para carregar a imagem gameOver.png
-  
-  //gover=gameOver.png;
-  
-  //gameOver.png=Load();
-  
-  gover = loadImage("gameOver.png");
+  endImg =loadAnimation("gameOver.png");
+ cash = createSprite(Math.round(random(250,width-250),40, 10, 10));
+ jewelry  = createSprite(Math.round(random(250,width-250),40, 10, 10));
+  diamonds    = createSprite(Math.round(random(250,width-250),40, 10, 10));
+  sword   = createSprite(Math.round(random(250,width-250),40, 10, 10));
 }
 
 function setup(){
   
-  createCanvas(400,600);
-// Movendo o fundo
-  
+  createCanvas(windowWidth,windowHeight);
+// Movendo plano de fundo
 path=createSprite(200,200);
 path.addImage(pathImg);
 path.velocityY = 4;
@@ -40,7 +39,7 @@ boy = createSprite(70,580,20,20);
 boy.addAnimation("SahilRunning",boyImg);
 boy.scale=0.08;
   
-
+  
 cashG=new Group();
 diamondsG=new Group();
 jwelleryG=new Group();
@@ -57,7 +56,7 @@ function draw() {
   edges= createEdgeSprites();
   boy.collide(edges);
   
-  //código para redefinir o fundo
+  //código para redefinir plano de fundo
   if(path.y > 400 ){
     path.y = height/2;
   }
@@ -82,7 +81,11 @@ function draw() {
     }else{
       if(swordGroup.isTouching(boy)) {
         gameState=END;
-       
+        
+        boy.addAnimation("SahilRunning",endImg);
+        boy.x=200;
+        boy.y=300;
+        boy.scale=0.6;
         
         cashG.destroyEach();
         diamondsG.destroyEach();
@@ -93,19 +96,6 @@ function draw() {
         diamondsG.setVelocityYEach(0);
         jwelleryG.setVelocityYEach(0);
         swordGroup.setVelocityYEach(0);
-        //Remova os comentários corretos da linha de código para exibir 'game over' (fim de jogo)
-
-        //  over = createSprite(880,9980,20,20);
-        //  over.addAnimation("gameover",gover);
-        //  over.scale=0.7
-
-        //  over = createSprite(180,280,20,20);
-        //  over.addAnimation("gameover",gover);
-        //  over.scale=0.7
-
-          over = createSprite(180,280,20,20);
-          over.addAnimation(gover);
-          over.scale=0.7
      
     }
   }
@@ -113,7 +103,7 @@ function draw() {
   drawSprites();
   textSize(20);
   fill(255);
-  text("Treasure: "+ treasureCollection,10,30);
+  text("Tesouro: "+ treasureCollection,150,30);
   }
 
 }
